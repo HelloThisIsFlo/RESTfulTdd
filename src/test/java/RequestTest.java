@@ -88,4 +88,23 @@ public class RequestTest {
         assertRequestNotValid(Request.HttpMethod.PUT, "/transactionservice/sum/123423");
         assertRequestNotValid(Request.HttpMethod.PUT, "/transactionservice/types/test");
     }
+
+    @Test
+    public void addPayloadOnPutRequest_success() throws Exception {
+        Request request = new Request(Request.HttpMethod.PUT, "/transactionservice/transaction/123423");
+        assertTrue(request.isValid());
+        String payload = "PAYLOAD";
+        boolean success = request.addPayload(payload);
+        assertTrue(success);
+        assertEquals(request.getPayload(), payload);
+    }
+
+    @Test
+    public void addPayloadOnGetRequest_failure() throws Exception {
+        Request request = new Request(Request.HttpMethod.GET, "/transactionservice/transaction/123423");
+        assertTrue(request.isValid());
+        String payload = "PAYLOAD";
+        boolean success = request.addPayload(payload);
+        assertFalse(success);
+    }
 }

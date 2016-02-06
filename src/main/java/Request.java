@@ -20,6 +20,7 @@ public class Request {
     private Method method;
     private String parameter;
     private String[] fragments;
+    private String payload;
 
     public Request(HttpMethod httpMethod, String url) {
         this.httpMethod = httpMethod;
@@ -47,6 +48,23 @@ public class Request {
                 && isServiceValid()
                 && isParameterValid()
                 && isHttpMethodValid();
+    }
+
+    public boolean addPayload(String payload) {
+        if (acceptsPayload()) {
+            this.payload = payload;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String getPayload() {
+        return payload;
+    }
+
+    private boolean acceptsPayload() {
+        return httpMethod == HttpMethod.PUT;
     }
 
     private void extractInfo() {
