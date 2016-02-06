@@ -2,10 +2,12 @@ import data.Storage;
 import data.Transaction;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import request.ImpossibleToAddPayloadException;
 import request.RequestImpl;
 
 import static org.mockito.Mockito.*;
@@ -41,5 +43,10 @@ public class ServerTest {
         int resultId = transactionCaptor.getValue().getTransactionId();
         assertEquals(payload, resultPayload);
         assertEquals(1024, resultId);
+    }
+
+    @Test(expected = TransactionIdNotAvailable.class)
+    public void testException() throws Exception {
+        server.isCaughtExceptionDetected();
     }
 }
