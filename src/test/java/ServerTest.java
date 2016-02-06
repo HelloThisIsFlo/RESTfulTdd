@@ -44,9 +44,4 @@ public class ServerTest {
         assertEquals(payload, resultPayload);
         assertEquals(1024, resultId);
     }
-
-    @Test(expected = TransactionIdNotAvailable.class)
-    public void testException() throws Exception {
-        server.isCaughtExceptionDetected();
-    }
 }

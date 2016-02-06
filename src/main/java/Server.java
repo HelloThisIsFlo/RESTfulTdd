@@ -11,7 +11,7 @@ public class Server {
         this.storage = storage;
     }
 
-    public void execute(RequestImpl request) {
+    public void execute(Request request) {
 
         String parameter = request.getParameter();
         String payload = request.getPayload();
@@ -19,15 +19,5 @@ public class Server {
         storage.save(data);
     }
 
-    public void isCaughtExceptionDetected() {
-        try {
-            throwException();
-        } catch (TransactionIdNotAvailable transactionIdNotAvailable) {
-            transactionIdNotAvailable.printStackTrace();
-        }
-    }
 
-    private void throwException() throws TransactionIdNotAvailable {
-        throw new TransactionIdNotAvailable();
-    }
 }
