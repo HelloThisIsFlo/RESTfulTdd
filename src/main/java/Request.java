@@ -23,6 +23,25 @@ public class Request {
         }
     }
 
+    public String getService() {
+        return service;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public String getParameter() {
+        return parameter;
+    }
+
+    public boolean isValid() {
+        return hasAllFragmentParts()
+                && isMethodValid()
+                && isServiceValid()
+                && isParameterValid();
+    }
+
     private void extractInfo() {
         fragments = url.split("/");
         if (hasService()) service = fragments[1];
@@ -44,26 +63,6 @@ public class Request {
 
     private boolean fragmentAtPositionIsAvailable(int position) {
         return fragments != null && fragments.length > position && !fragments[position].isEmpty();
-    }
-
-
-    public String getService() {
-        return service;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public String getParameter() {
-        return parameter;
-    }
-
-    public boolean isValid() {
-        return hasAllFragmentParts()
-                && isMethodValid()
-                && isServiceValid()
-                && isParameterValid();
     }
 
     private boolean isMethodValid() {
