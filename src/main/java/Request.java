@@ -3,13 +3,9 @@ import java.util.Map;
 
 public class Request {
 
-    public enum Method {
-        TRANSACTION,
-        TYPES,
-        SUM,
-        UNKNOWN
-    }
+    private static String validService = "transactionservice";
     private static Map<String, Method> validMethods = new HashMap<>(3);
+
     static {
         validMethods.put("transaction", Method.TRANSACTION);
         validMethods.put("types", Method.TYPES);
@@ -21,7 +17,6 @@ public class Request {
     private Method method;
     private String parameter;
     private String[] fragments;
-
     public Request(String url) {
         this.url = url;
         if (url != null) {
@@ -84,7 +79,7 @@ public class Request {
     }
 
     private boolean isServiceValid() {
-        return hasService() && "transactionservice".equals(service);
+        return hasService() && validService.equals(service);
     }
 
     private boolean isParameterValid() {
@@ -116,5 +111,12 @@ public class Request {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public enum Method {
+        TRANSACTION,
+        TYPES,
+        SUM,
+        UNKNOWN
     }
 }
