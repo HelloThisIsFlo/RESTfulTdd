@@ -1,18 +1,24 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Request {
 
-    private static List<String> validMethods = new ArrayList<>(3);
+    public enum Method {
+        TRANSACTION,
+        TYPES,
+        SUM,
+        UNKNOWN
+    }
+    private static Map<String, Method> validMethods = new HashMap<>(3);
     static {
-        validMethods.add("transaction");
-        validMethods.add("types");
-        validMethods.add("sum");
+        validMethods.put("transaction", Method.TRANSACTION);
+        validMethods.put("types", Method.TYPES);
+        validMethods.put("sum", Method.SUM);
     }
 
     private String url;
     private String service;
-    private String method;
+    private Method method;
     private String parameter;
     private String[] fragments;
 
@@ -27,7 +33,7 @@ public class Request {
         return service;
     }
 
-    public String getMethod() {
+    public Method getMethod() {
         return method;
     }
 
@@ -45,8 +51,16 @@ public class Request {
     private void extractInfo() {
         fragments = url.split("/");
         if (hasService()) service = fragments[1];
-        if (hasMethod()) method = fragments[2];
+        if (hasMethod()) method = getMethodFromString(fragments[2]);
         if (hasParameter()) parameter = fragments[3];
+    }
+
+    private Method getMethodFromString(String methodName) {
+        Method method = validMethods.get(methodName);
+        if (method == null) {
+            method = Method.UNKNOWN;
+        }
+        return method;
     }
 
     private boolean hasService() {
@@ -66,7 +80,7 @@ public class Request {
     }
 
     private boolean isMethodValid() {
-        return hasMethod() && validMethods.contains(method);
+        return hasMethod() && method != Method.UNKNOWN;
     }
 
     private boolean isServiceValid() {
@@ -90,8 +104,8 @@ public class Request {
     }
 
     private boolean isParameterExpectedToBeLong() {
-        return method.equals("transaction")
-                || method.equals("sum");
+        return method == Method.TRANSACTION
+                || method == Method.SUM;
     }
 
     private boolean isParameterLong() {

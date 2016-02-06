@@ -14,9 +14,9 @@ public class RequestTest {
 
     @Test
     public void extractMethod() throws Exception {
-        String url = "/transactionservice/method";
+        String url = "/transactionservice/types";
         Request request = new Request(url);
-        assertEquals("method", request.getMethod());
+        assertEquals(Request.Method.TYPES, request.getMethod());
     }
 
     @Test
