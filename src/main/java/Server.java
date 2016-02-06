@@ -1,5 +1,6 @@
 import data.Storage;
 import data.Transaction;
+import request.RequestImpl;
 
 public class Server {
 
@@ -9,7 +10,7 @@ public class Server {
         this.storage = storage;
     }
 
-    public void execute(Request request) {
+    public void execute(RequestImpl request) {
 
         String parameter = request.getParameter();
         String payload = request.getPayload();

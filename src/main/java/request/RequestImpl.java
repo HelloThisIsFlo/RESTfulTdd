@@ -1,9 +1,10 @@
-import org.omg.CORBA.PUBLIC_MEMBER;
+package request;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Request {
+public class RequestImpl implements Request {
 
     private static String validService = "transactionservice";
     private static Map<String, Method> validMethods = new HashMap<>(3);
@@ -22,7 +23,7 @@ public class Request {
     private String[] fragments;
     private String payload;
 
-    public Request(HttpMethod httpMethod, String url) {
+    public RequestImpl(HttpMethod httpMethod, String url) {
         this.httpMethod = httpMethod;
         this.url = url;
         if (url != null) {
@@ -153,14 +154,5 @@ public class Request {
         }
     }
 
-    public enum HttpMethod {
-        GET,
-        PUT
-    }
-    public enum Method {
-        TRANSACTION,
-        TYPES,
-        SUM,
-        UNKNOWN
-    }
+
 }

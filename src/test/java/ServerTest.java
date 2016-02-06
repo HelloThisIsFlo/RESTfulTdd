@@ -6,6 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import request.RequestImpl;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
@@ -29,7 +30,7 @@ public class ServerTest {
     @Test
     public void putRequest_saveToStorage() throws Exception {
         // Make post request
-        Request request = new Request(Request.HttpMethod.PUT, "/transactionservice/transaction/1024");
+        RequestImpl request = new RequestImpl(RequestImpl.HttpMethod.PUT, "/transactionservice/transaction/1024");
         String payload = "Hello, this is Payload!";
         request.addPayload(payload);
 
