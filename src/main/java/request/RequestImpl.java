@@ -107,8 +107,8 @@ public class RequestImpl implements Request {
     }
 
     private boolean isParameterValid() {
-        if (hasAllFragmentParts()) {
-            if (isParameterExpectedToBeLong()) {
+        if (hasParameter()) {
+            if (isParameterExpectedToBeLong()) { //todo maybe remove. Not sure if Request's responsability
                 return isParameterLong();
             } else {
                 return !isParameterLong();
@@ -140,8 +140,12 @@ public class RequestImpl implements Request {
     }
 
     private boolean isParameterExpectedToBeLong() {
-        return method == Method.TRANSACTION
-                || method == Method.SUM;
+        if (hasMethod()) {
+            return method == Method.TRANSACTION
+                    || method == Method.SUM;
+        } else {
+            return false;
+        }
     }
 
     private boolean isParameterLong() {
