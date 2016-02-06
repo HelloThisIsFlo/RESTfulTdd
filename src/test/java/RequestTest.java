@@ -13,8 +13,8 @@ public class RequestTest {
 
         String wrongUrl = "/otherservice/test";
         Request wrongRequest = new Request(wrongUrl);
-        String wrongResult = request.getService();
+        String wrongResult = wrongRequest.getService();
 
-        assertNotEquals("transactionservice", wrongRequest);
+        assertNotEquals("transactionservice", wrongResult);
     }
 }
