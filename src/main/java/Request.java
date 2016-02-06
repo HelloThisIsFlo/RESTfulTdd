@@ -1,3 +1,5 @@
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,12 +14,15 @@ public class Request {
         validMethods.put("sum", Method.SUM);
     }
 
-    private String url;
+    private final HttpMethod httpMethod;
+    private final String url;
     private String service;
     private Method method;
     private String parameter;
     private String[] fragments;
-    public Request(String url) {
+
+    public Request(HttpMethod httpMethod, String url) {
+        this.httpMethod = httpMethod;
         this.url = url;
         if (url != null) {
             extractInfo();
@@ -40,7 +45,8 @@ public class Request {
         return hasAllFragmentParts()
                 && isMethodValid()
                 && isServiceValid()
-                && isParameterValid();
+                && isParameterValid()
+                && isHttpMethodValid();
     }
 
     private void extractInfo() {
@@ -94,6 +100,23 @@ public class Request {
         }
     }
 
+    private boolean isHttpMethodValid() {
+        if (httpMethod == HttpMethod.PUT) {
+            return doesMethodAcceptPut();
+        } else if (httpMethod == HttpMethod.GET){
+            return doesMethodAcceptGet();
+        }
+        return false;
+    }
+
+    private boolean doesMethodAcceptPut() {
+        return method == Method.TRANSACTION;
+    }
+
+    private boolean doesMethodAcceptGet() {
+        return true; // All method accept get
+    }
+
     private boolean hasAllFragmentParts() {
         return hasParameter() && hasService() && hasMethod();
     }
@@ -113,6 +136,10 @@ public class Request {
         }
     }
 
+    public enum HttpMethod {
+        GET,
+        PUT
+    }
     public enum Method {
         TRANSACTION,
         TYPES,

@@ -7,7 +7,7 @@ public class RequestTest {
     @Test
     public void extractService() throws Exception {
         String url = "/transactionservice/somethingelse";
-        Request request = new Request(url);
+        Request request = new Request(Request.HttpMethod.GET, url);
         String result = request.getService();
         assertEquals("transactionservice", result);
     }
@@ -15,17 +15,16 @@ public class RequestTest {
     @Test
     public void extractMethod() throws Exception {
         String url = "/transactionservice/types";
-        Request request = new Request(url);
+        Request request = new Request(Request.HttpMethod.GET, url);
         assertEquals(Request.Method.TYPES, request.getMethod());
     }
 
     @Test
     public void extractParameter() throws Exception {
         String url = "/transactionservice/transaction/1024";
-        Request request = new Request(url);
+        Request request = new Request(Request.HttpMethod.GET, url);
         assertEquals("1024", request.getParameter());
     }
-
 
     @Test
     public void ensureWholeUrlIsValid() throws Exception {
@@ -58,12 +57,35 @@ public class RequestTest {
     }
 
     private void assertUrlValid(String url) {
-        Request request = new Request(url);
-        assertTrue(request.isValid());
+        Request getRequest = new Request(Request.HttpMethod.GET, url);
+        Request putRequest = new Request(Request.HttpMethod.PUT, url);
+        assertTrue(getRequest.isValid() || putRequest.isValid());
     }
 
     private void assertUrlNotValid(String url) {
-        Request request = new Request(url);
+        Request getRequest = new Request(Request.HttpMethod.GET, url);
+        Request putRequest = new Request(Request.HttpMethod.PUT, url);
+        assertFalse(getRequest.isValid() || putRequest.isValid());
+    }
+
+    private void assertRequestValid(Request.HttpMethod httpMethod, String url) {
+        Request request = new Request(httpMethod, url);
+        assertTrue(request.isValid());
+    }
+
+    private void assertRequestNotValid(Request.HttpMethod httpMethod, String url) {
+        Request request = new Request(httpMethod, url);
         assertFalse(request.isValid());
+    }
+
+    @Test
+    public void ensureValidRequestMethod() throws Exception {
+        assertRequestValid(Request.HttpMethod.GET, "/transactionservice/transaction/123423");
+        assertRequestValid(Request.HttpMethod.PUT, "/transactionservice/transaction/123423");
+        assertRequestValid(Request.HttpMethod.GET, "/transactionservice/sum/123423");
+        assertRequestValid(Request.HttpMethod.GET, "/transactionservice/types/test");
+
+        assertRequestNotValid(Request.HttpMethod.PUT, "/transactionservice/sum/123423");
+        assertRequestNotValid(Request.HttpMethod.PUT, "/transactionservice/types/test");
     }
 }
