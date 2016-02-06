@@ -3,6 +3,7 @@ public class Request {
     private String url;
     private String service;
 
+
     public Request(String url) {
         this.url = url;
         extractService();
@@ -15,5 +16,9 @@ public class Request {
 
     public String getService() {
         return service;
+    }
+
+    public boolean isServiceValid() {
+        return "transactionservice".equals(service);
     }
 }

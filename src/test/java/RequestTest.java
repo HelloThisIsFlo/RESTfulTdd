@@ -1,4 +1,3 @@
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -6,15 +5,20 @@ public class RequestTest {
 
     @Test
     public void extractService() throws Exception {
-        String correctUrl = "/transactionservice/somethingelse";
-        Request request = new Request(correctUrl);
+        String url = "/transactionservice/somethingelse";
+        Request request = new Request(url);
         String result = request.getService();
         assertEquals("transactionservice", result);
+    }
+
+    @Test
+    public void ensureRightServiceIsUsed() throws Exception {
+        String correctUrl = "/transactionservice/somethingelse";
+        Request request = new Request(correctUrl);
+        assertTrue(request.isServiceValid());
 
         String wrongUrl = "/otherservice/test";
         Request wrongRequest = new Request(wrongUrl);
-        String wrongResult = wrongRequest.getService();
-
-        assertNotEquals("transactionservice", wrongResult);
+        assertFalse(wrongRequest.isServiceValid());
     }
 }
