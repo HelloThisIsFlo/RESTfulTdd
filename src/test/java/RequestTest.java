@@ -94,17 +94,15 @@ public class RequestTest {
         Request request = new Request(Request.HttpMethod.PUT, "/transactionservice/transaction/123423");
         assertTrue(request.isValid());
         String payload = "PAYLOAD";
-        boolean success = request.addPayload(payload);
-        assertTrue(success);
+        request.addPayload(payload);
         assertEquals(request.getPayload(), payload);
     }
 
-    @Test
+    @Test(expected=ImpossibleToAddPayloadException.class)
     public void addPayloadOnGetRequest_failure() throws Exception {
         Request request = new Request(Request.HttpMethod.GET, "/transactionservice/transaction/123423");
         assertTrue(request.isValid());
         String payload = "PAYLOAD";
-        boolean success = request.addPayload(payload);
-        assertFalse(success);
+        request.addPayload(payload);
     }
 }

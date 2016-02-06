@@ -50,12 +50,11 @@ public class Request {
                 && isHttpMethodValid();
     }
 
-    public boolean addPayload(String payload) {
+    public void addPayload(String payload) throws ImpossibleToAddPayloadException {
         if (acceptsPayload()) {
             this.payload = payload;
-            return true;
         } else {
-            return false;
+            throw new ImpossibleToAddPayloadException();
         }
     }
 
