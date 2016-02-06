@@ -7,7 +7,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.matchers.Any;
 import request.ImpossibleToAddPayloadException;
+import request.Request;
 import request.RequestImpl;
 
 import static org.mockito.Mockito.*;
@@ -32,7 +34,7 @@ public class ServerTest {
     @Test
     public void putRequest_saveToStorage() throws Exception {
         // Make post request
-        RequestImpl request = new RequestImpl(RequestImpl.HttpMethod.PUT, "/transactionservice/transaction/1024");
+        Request request = new RequestImpl(RequestImpl.HttpMethod.PUT, "/transactionservice/transaction/1024");
         String payload = "Hello, this is Payload!";
         request.addPayload(payload);
 
@@ -43,5 +45,29 @@ public class ServerTest {
         int resultId = transactionCaptor.getValue().getTransactionId();
         assertEquals(payload, resultPayload);
         assertEquals(1024, resultId);
+    }
+
+    @Test
+    public void wrongRequest_doNotSave() throws Exception {
+        // Make wrong request
+        Request request = new RequestImpl(RequestImpl.HttpMethod.PUT, "/sf/transaction/1024");
+        String payload = "Hello, this is Payload!";
+        request.addPayload(payload);
+
+        server.execute(request);
+
+        verify(storage, never()).save(any());
+    }
+
+    @Test
+    public void requestWithNoId_doNotCrashDo_doNotSave() throws Exception {
+        // Make wrong request
+        Request request = new RequestImpl(RequestImpl.HttpMethod.PUT, "/transactionservice/transaction/noid");
+        String payload = "Hello, this is Payload!";
+        request.addPayload(payload);
+
+        server.execute(request);
+
+        verify(storage, never()).save(any());
     }
 }

@@ -1,7 +1,6 @@
 import data.Storage;
 import data.Transaction;
 import request.Request;
-import request.RequestImpl;
 
 public class Server {
 
@@ -12,11 +11,12 @@ public class Server {
     }
 
     public void execute(Request request) {
-
-        String parameter = request.getParameter();
-        String payload = request.getPayload();
-        Transaction data = new Transaction(Integer.parseInt(parameter), payload);
-        storage.save(data);
+        if (request.isValid()) {
+            String parameter = request.getParameter();
+            String payload = request.getPayload();
+            Transaction data = new Transaction(Integer.parseInt(parameter), payload);
+            storage.save(data);
+        }
     }
 
 
