@@ -12,10 +12,15 @@ public class Server {
 
     public void execute(Request request) {
         if (request.isValid()) {
-            String parameter = request.getParameter();
-            String payload = request.getPayload();
-            Transaction data = new Transaction(Integer.parseInt(parameter), payload);
-            storage.save(data);
+            if (request.getHttpMethod() == Request.HttpMethod.GET) {
+                long transactionId = Long.parseLong(request.getParameter());
+                storage.get(transactionId);
+            } else {
+                String parameter = request.getParameter();
+                String payload = request.getPayload();
+                Transaction data = new Transaction(Integer.parseInt(parameter), payload);
+                storage.save(data);
+            }
         }
     }
 

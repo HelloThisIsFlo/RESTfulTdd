@@ -31,6 +31,10 @@ public class RequestImpl implements Request {
         }
     }
 
+    public HttpMethod getHttpMethod() {
+        return httpMethod;
+    }
+
     public String getService() {
         return service;
     }

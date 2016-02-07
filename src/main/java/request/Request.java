@@ -16,6 +16,7 @@ public interface Request {
 
     boolean isValid();
 
+    HttpMethod getHttpMethod();
     Method getMethod();
     String getParameter();
 

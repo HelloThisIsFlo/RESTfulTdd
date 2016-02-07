@@ -2,15 +2,15 @@ package data;
 
 public class Transaction {
 
-    private final int transactionId;
+    private final long transactionId;
     private final String payload;
 
-    public Transaction(int transactionId, String payload) {
+    public Transaction(long transactionId, String payload) {
         this.transactionId = transactionId;
         this.payload = payload;
     }
 
-    public int getTransactionId() {
+    public long getTransactionId() {
         return transactionId;
     }
 
