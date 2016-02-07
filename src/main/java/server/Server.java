@@ -3,6 +3,8 @@ package server;
 import data.Storage;
 import data.Transaction;
 import httprequest.HttpRequest;
+import server.request.InvalidHttpRequest;
+import server.request.Request;
 
 public class Server {
 
@@ -12,7 +14,12 @@ public class Server {
         this.storage = storage;
     }
 
-    public void execute(HttpRequest httpRequest) {
+    public void execute(HttpRequest httpRequest) throws InvalidHttpRequest {
+
+
+
+
+
         if (httpRequest.isValid()) {
             if (httpRequest.getHttpMethod() == HttpRequest.HttpMethod.GET) {
                 long transactionId = Long.parseLong(httpRequest.getParameter());
@@ -25,6 +32,10 @@ public class Server {
             }
         }
     }
+
+//    private Request makeRequestFromHttpRequest(HttpRequest httpRequest) throws InvalidHttpRequest {
+//
+//    }
 
     protected void save(Transaction data) {
         storage.save(data);

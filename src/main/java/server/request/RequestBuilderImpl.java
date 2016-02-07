@@ -1,8 +1,6 @@
-package server;
+package server.request;
 
 import httprequest.HttpRequest;
-import org.omg.CORBA.DynAnyPackage.InvalidValue;
-import server.request.*;
 
 /**
  * Build a Request executable from the server
@@ -10,33 +8,30 @@ import server.request.*;
  * This class allow to conceal the "switch" statement in a single class. It will also be the only class to recompile
  * when a new Request type is added
  *
- * todo verify above assertion
+ * todo Not so sure about above sentence. To check in a couple of weeks when more experience with dependencies
  */
-public class RequestBuilder {
+public class RequestBuilderImpl {
 
-    private final HttpRequest httpRequest;
+    private HttpRequest httpRequest;
 
-    private RequestBuilder(HttpRequest httpRequest) {
+    public Request buildFromHttpRequest(HttpRequest httpRequest) throws InvalidHttpRequest{
         this.httpRequest = httpRequest;
-    }
-
-    public static Request fromHttpRequest(HttpRequest httpRequest) throws InvalidHttpRequest{
-        return new RequestBuilder(httpRequest).build();
-    }
-
-    private Request build() throws InvalidHttpRequest {
         ensureHttpRequestValid();
         switch (httpRequest.getHttpMethod()) {
             case GET:
                 return buildGetRequest();
 
             case PUT:
-                String payload = getPayload();
-                return new PutTransactionRequest(payload);
+                return buildPutRequest();
 
             default:
                 throw new InvalidHttpRequest();
         }
+    }
+
+    private Request buildPutRequest() throws InvalidHttpRequest {
+        String payload = getPayload();
+        return new PutTransactionRequest(payload);
     }
 
     private Request buildGetRequest() throws InvalidHttpRequest {
