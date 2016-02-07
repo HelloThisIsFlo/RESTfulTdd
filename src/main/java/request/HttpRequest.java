@@ -1,6 +1,6 @@
 package request;
 
-public interface Request {
+public interface HttpRequest {
     //todo also implement with standard java library
 
     enum HttpMethod {

@@ -4,7 +4,7 @@ package request;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestImpl implements Request {
+public class HttpRequestImpl implements HttpRequest {
 
     private static String validService = "transactionservice";
     private static Map<String, Method> validMethods = new HashMap<>(3);
@@ -23,7 +23,7 @@ public class RequestImpl implements Request {
     private String[] fragments;
     private String payload;
 
-    public RequestImpl(HttpMethod httpMethod, String url) {
+    public HttpRequestImpl(HttpMethod httpMethod, String url) {
         this.httpMethod = httpMethod;
         this.url = url;
         if (url != null) {
@@ -112,7 +112,7 @@ public class RequestImpl implements Request {
 
     private boolean isParameterValid() {
         if (hasParameter()) {
-            if (isParameterExpectedToBeLong()) { //todo maybe remove. Not sure if Request's responsability
+            if (isParameterExpectedToBeLong()) { //todo maybe remove. Not sure if HttpRequest's responsability
                 return isParameterLong();
             } else {
                 return !isParameterLong();

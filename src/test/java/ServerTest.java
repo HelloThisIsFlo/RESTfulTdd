@@ -6,9 +6,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import request.HttpRequest;
+import request.HttpRequestImpl;
 import request.ImpossibleToAddPayloadException;
-import request.Request;
-import request.RequestImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -23,10 +23,10 @@ public class ServerTest {
     ArgumentCaptor<Transaction> transactionCaptor;
     private Server server;
 
-    private static Request makePutRequestFromUrl(String url) throws ImpossibleToAddPayloadException {
-        Request request = new RequestImpl(RequestImpl.HttpMethod.PUT, url);
-        request.addPayload(PAYLOAD);
-        return request;
+    private static HttpRequest makePutRequestFromUrl(String url) throws ImpossibleToAddPayloadException {
+        HttpRequest httpRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.PUT, url);
+        httpRequest.addPayload(PAYLOAD);
+        return httpRequest;
     }
 
     @Before
@@ -37,8 +37,8 @@ public class ServerTest {
 
     @Test
     public void putRequest_saveToStorage() throws Exception {
-        Request request = makePutRequestFromUrl("/transactionservice/transaction/" + TRANSACTION_ID);
-        server.execute(request);
+        HttpRequest httpRequest = makePutRequestFromUrl("/transactionservice/transaction/" + TRANSACTION_ID);
+        server.execute(httpRequest);
 
         verify(storage).save(transactionCaptor.capture());
         String resultPayload = transactionCaptor.getValue().getPayload();
@@ -49,23 +49,23 @@ public class ServerTest {
 
     @Test
     public void wrongRequest_doNotSave() throws Exception {
-        Request request = makePutRequestFromUrl("/sf/transaction/" + TRANSACTION_ID);
-        server.execute(request);
+        HttpRequest httpRequest = makePutRequestFromUrl("/sf/transaction/" + TRANSACTION_ID);
+        server.execute(httpRequest);
         verify(storage, never()).save(any());
     }
 
     @Test
     public void requestWithNoId_doNotCrashDo_doNotSave() throws Exception {
-        Request request = makePutRequestFromUrl("/transactionservice/transaction/noid");
-        server.execute(request);
+        HttpRequest httpRequest = makePutRequestFromUrl("/transactionservice/transaction/noid");
+        server.execute(httpRequest);
         verify(storage, never()).save(any());
     }
 
     @Test
     public void getRequest_retrieveTransaction() throws Exception {
-        Request request = new RequestImpl(RequestImpl.HttpMethod.GET, "/transactionservice/transaction/" + TRANSACTION_ID);
+        HttpRequest httpRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, "/transactionservice/transaction/" + TRANSACTION_ID);
 
-        server.execute(request);
+        server.execute(httpRequest);
         verify(storage).get(eq(TRANSACTION_ID));
 
     }

@@ -4,12 +4,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class RequestImplTest {
+public class HttpRequestImplTest {
 
     @Test
     public void extractService() throws Exception {
         String url = "/transactionservice/somethingelse";
-        RequestImpl request = new RequestImpl(RequestImpl.HttpMethod.GET, url);
+        HttpRequestImpl request = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, url);
         String result = request.getService();
         assertEquals("transactionservice", result);
     }
@@ -17,14 +17,14 @@ public class RequestImplTest {
     @Test
     public void extractMethod() throws Exception {
         String url = "/transactionservice/types";
-        RequestImpl request = new RequestImpl(RequestImpl.HttpMethod.GET, url);
-        assertEquals(RequestImpl.Method.TYPES, request.getMethod());
+        HttpRequestImpl request = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, url);
+        assertEquals(HttpRequestImpl.Method.TYPES, request.getMethod());
     }
 
     @Test
     public void extractParameter() throws Exception {
         String url = "/transactionservice/transaction/1024";
-        RequestImpl request = new RequestImpl(RequestImpl.HttpMethod.GET, url);
+        HttpRequestImpl request = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, url);
         assertEquals("1024", request.getParameter());
     }
 
@@ -59,41 +59,41 @@ public class RequestImplTest {
     }
 
     private void assertUrlValid(String url) {
-        RequestImpl getRequest = new RequestImpl(RequestImpl.HttpMethod.GET, url);
-        RequestImpl putRequest = new RequestImpl(RequestImpl.HttpMethod.PUT, url);
+        HttpRequestImpl getRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, url);
+        HttpRequestImpl putRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.PUT, url);
         assertTrue(getRequest.isValid() || putRequest.isValid());
     }
 
     private void assertUrlNotValid(String url) {
-        RequestImpl getRequest = new RequestImpl(RequestImpl.HttpMethod.GET, url);
-        RequestImpl putRequest = new RequestImpl(RequestImpl.HttpMethod.PUT, url);
+        HttpRequestImpl getRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, url);
+        HttpRequestImpl putRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.PUT, url);
         assertFalse(getRequest.isValid() || putRequest.isValid());
     }
 
-    private void assertRequestValid(RequestImpl.HttpMethod httpMethod, String url) {
-        RequestImpl request = new RequestImpl(httpMethod, url);
+    private void assertRequestValid(HttpRequestImpl.HttpMethod httpMethod, String url) {
+        HttpRequestImpl request = new HttpRequestImpl(httpMethod, url);
         assertTrue(request.isValid());
     }
 
-    private void assertRequestNotValid(RequestImpl.HttpMethod httpMethod, String url) {
-        RequestImpl request = new RequestImpl(httpMethod, url);
+    private void assertRequestNotValid(HttpRequestImpl.HttpMethod httpMethod, String url) {
+        HttpRequestImpl request = new HttpRequestImpl(httpMethod, url);
         assertFalse(request.isValid());
     }
 
     @Test
     public void ensureValidRequestMethod() throws Exception {
-        assertRequestValid(RequestImpl.HttpMethod.GET, "/transactionservice/transaction/123423");
-        assertRequestValid(RequestImpl.HttpMethod.PUT, "/transactionservice/transaction/123423");
-        assertRequestValid(RequestImpl.HttpMethod.GET, "/transactionservice/sum/123423");
-        assertRequestValid(RequestImpl.HttpMethod.GET, "/transactionservice/types/test");
+        assertRequestValid(HttpRequestImpl.HttpMethod.GET, "/transactionservice/transaction/123423");
+        assertRequestValid(HttpRequestImpl.HttpMethod.PUT, "/transactionservice/transaction/123423");
+        assertRequestValid(HttpRequestImpl.HttpMethod.GET, "/transactionservice/sum/123423");
+        assertRequestValid(HttpRequestImpl.HttpMethod.GET, "/transactionservice/types/test");
 
-        assertRequestNotValid(RequestImpl.HttpMethod.PUT, "/transactionservice/sum/123423");
-        assertRequestNotValid(RequestImpl.HttpMethod.PUT, "/transactionservice/types/test");
+        assertRequestNotValid(HttpRequestImpl.HttpMethod.PUT, "/transactionservice/sum/123423");
+        assertRequestNotValid(HttpRequestImpl.HttpMethod.PUT, "/transactionservice/types/test");
     }
 
     @Test
     public void addPayloadOnPutRequest_success() throws Exception {
-        RequestImpl request = new RequestImpl(RequestImpl.HttpMethod.PUT, "/transactionservice/transaction/123423");
+        HttpRequestImpl request = new HttpRequestImpl(HttpRequestImpl.HttpMethod.PUT, "/transactionservice/transaction/123423");
         assertTrue(request.isValid());
         String payload = "PAYLOAD";
         request.addPayload(payload);
@@ -102,7 +102,7 @@ public class RequestImplTest {
 
     @Test(expected= ImpossibleToAddPayloadException.class)
     public void addPayloadOnGetRequest_failure() throws Exception {
-        RequestImpl request = new RequestImpl(RequestImpl.HttpMethod.GET, "/transactionservice/transaction/123423");
+        HttpRequestImpl request = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, "/transactionservice/transaction/123423");
         assertTrue(request.isValid());
         String payload = "PAYLOAD";
         request.addPayload(payload);

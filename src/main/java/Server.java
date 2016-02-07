@@ -1,6 +1,6 @@
 import data.Storage;
 import data.Transaction;
-import request.Request;
+import request.HttpRequest;
 
 public class Server {
 
@@ -10,14 +10,14 @@ public class Server {
         this.storage = storage;
     }
 
-    public void execute(Request request) {
-        if (request.isValid()) {
-            if (request.getHttpMethod() == Request.HttpMethod.GET) {
-                long transactionId = Long.parseLong(request.getParameter());
+    public void execute(HttpRequest httpRequest) {
+        if (httpRequest.isValid()) {
+            if (httpRequest.getHttpMethod() == HttpRequest.HttpMethod.GET) {
+                long transactionId = Long.parseLong(httpRequest.getParameter());
                 storage.get(transactionId);
             } else {
-                String parameter = request.getParameter();
-                String payload = request.getPayload();
+                String parameter = httpRequest.getParameter();
+                String payload = httpRequest.getPayload();
                 Transaction data = new Transaction(Integer.parseInt(parameter), payload);
                 storage.save(data);
             }
