@@ -1,3 +1,5 @@
+package server;
+
 import data.Storage;
 import data.Transaction;
 import org.junit.Before;
@@ -25,7 +27,7 @@ public class ServerTest {
 
     private static HttpRequest makePutRequestFromUrl(String url) throws ImpossibleToAddPayloadException {
         HttpRequest httpRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.PUT, url);
-        httpRequest.addPayload(PAYLOAD);
+        httpRequest.setPayload(PAYLOAD);
         return httpRequest;
     }
 

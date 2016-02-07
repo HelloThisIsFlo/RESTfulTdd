@@ -96,7 +96,7 @@ public class HttpRequestImplTest {
         HttpRequestImpl request = new HttpRequestImpl(HttpRequestImpl.HttpMethod.PUT, "/transactionservice/transaction/123423");
         assertTrue(request.isValid());
         String payload = "PAYLOAD";
-        request.addPayload(payload);
+        request.setPayload(payload);
         assertEquals(request.getPayload(), payload);
     }
 
@@ -105,6 +105,6 @@ public class HttpRequestImplTest {
         HttpRequestImpl request = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, "/transactionservice/transaction/123423");
         assertTrue(request.isValid());
         String payload = "PAYLOAD";
-        request.addPayload(payload);
+        request.setPayload(payload);
     }
 }

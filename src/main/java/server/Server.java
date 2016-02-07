@@ -1,3 +1,5 @@
+package server;
+
 import data.Storage;
 import data.Transaction;
 import httprequest.HttpRequest;
@@ -23,6 +25,15 @@ public class Server {
             }
         }
     }
+
+    protected void save(Transaction data) {
+        storage.save(data);
+    }
+
+    protected Transaction get(long transactionId) {
+        return storage.get(transactionId);
+    }
+
 
 
 }

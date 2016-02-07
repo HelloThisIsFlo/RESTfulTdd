@@ -55,7 +55,7 @@ public class HttpRequestImpl implements HttpRequest {
                 && isHttpMethodValid();
     }
 
-    public void addPayload(String payload) throws ImpossibleToAddPayloadException {
+    public void setPayload(String payload) throws ImpossibleToAddPayloadException {
         if (acceptsPayload()) {
             this.payload = payload;
         } else {

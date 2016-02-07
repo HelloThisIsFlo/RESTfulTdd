@@ -1,5 +1,8 @@
 package httprequest;
 
+/**
+ * Represent and validate a Http server
+ */
 public interface HttpRequest {
     //todo also implement with standard java library
 
@@ -20,6 +23,6 @@ public interface HttpRequest {
     Method getMethod();
     String getParameter();
 
-    void addPayload(String payload) throws ImpossibleToAddPayloadException;
+    void setPayload(String payload) throws ImpossibleToAddPayloadException;
     String getPayload();
 }
