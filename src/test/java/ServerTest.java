@@ -6,9 +6,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import request.HttpRequest;
-import request.HttpRequestImpl;
-import request.ImpossibleToAddPayloadException;
+import httprequest.HttpRequest;
+import httprequest.HttpRequestImpl;
+import httprequest.ImpossibleToAddPayloadException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;

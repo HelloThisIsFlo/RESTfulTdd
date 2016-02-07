@@ -1,6 +1,6 @@
 import data.Storage;
 import data.Transaction;
-import request.HttpRequest;
+import httprequest.HttpRequest;
 
 public class Server {
 

@@ -1,8 +1,8 @@
-package request;
+package httprequest;
 
 public class ImpossibleToAddPayloadException extends Exception{
 
     public ImpossibleToAddPayloadException() {
-        super("Please only add payload to PUT request");
+        super("Please only add payload to PUT httprequest");
     }
 }

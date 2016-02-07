@@ -1,4 +1,4 @@
-package request;
+package httprequest;
 
 public interface HttpRequest {
     //todo also implement with standard java library

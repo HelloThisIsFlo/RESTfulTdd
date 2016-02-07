@@ -1,4 +1,4 @@
-package request;
+package httprequest;
 
 import org.junit.Test;
 
