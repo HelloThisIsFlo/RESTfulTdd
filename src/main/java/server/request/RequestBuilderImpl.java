@@ -10,7 +10,7 @@ import httprequest.HttpRequest;
  *
  * todo Not so sure about above sentence. To check in a couple of weeks when more experience with dependencies
  */
-public class RequestBuilderImpl {
+public class RequestBuilderImpl implements RequestBuilder {
 
     private HttpRequest httpRequest;
 
@@ -31,7 +31,8 @@ public class RequestBuilderImpl {
 
     private Request buildPutRequest() throws InvalidHttpRequest {
         String payload = getPayload();
-        return new PutTransactionRequest(payload);
+        long transactionId = getLongParameter();
+        return new PutTransactionRequest(transactionId, payload);
     }
 
     private Request buildGetRequest() throws InvalidHttpRequest {

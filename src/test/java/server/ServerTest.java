@@ -11,9 +11,14 @@ import org.mockito.MockitoAnnotations;
 import httprequest.HttpRequest;
 import httprequest.HttpRequestImpl;
 import httprequest.ImpossibleToAddPayloadException;
+import server.request.InvalidHttpRequest;
+import server.request.RequestBuilder;
+import server.request.RequestBuilderImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
+
+
 
 public class ServerTest {
 
@@ -21,6 +26,7 @@ public class ServerTest {
     private static long TRANSACTION_ID = 2371;
     @Mock
     Storage storage;
+    RequestBuilder requestBuilder;
     @Captor
     ArgumentCaptor<Transaction> transactionCaptor;
     private Server server;
@@ -34,7 +40,8 @@ public class ServerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        server = new Server(storage);
+        requestBuilder = new RequestBuilderImpl();
+        server = new Server(storage, requestBuilder);
     }
 
     @Test
@@ -49,15 +56,15 @@ public class ServerTest {
         assertEquals(TRANSACTION_ID, resultId);
     }
 
-    @Test
-    public void wrongRequest_doNotSave() throws Exception {
+    @Test (expected = InvalidHttpRequest.class)
+    public void wrongRequest_throwException() throws Exception {
         HttpRequest httpRequest = makePutRequestFromUrl("/sf/transaction/" + TRANSACTION_ID);
         server.execute(httpRequest);
         verify(storage, never()).save(any());
     }
 
-    @Test
-    public void requestWithNoId_doNotCrashDo_doNotSave() throws Exception {
+    @Test (expected = InvalidHttpRequest.class)
+    public void requestWithNoId_throwException() throws Exception {
         HttpRequest httpRequest = makePutRequestFromUrl("/transactionservice/transaction/noid");
         server.execute(httpRequest);
         verify(storage, never()).save(any());

@@ -4,14 +4,14 @@ import server.Server;
 
 public class GetTransactionRequest implements Request {
 
-    private final long transactionId;
+    private final long id;
 
     public GetTransactionRequest(long transactionId) {
-        this.transactionId = transactionId;
+        this.id = transactionId;
     }
 
     @Override
     public void execute(Server server) {
-
+        server.get(id);
     }
 }
