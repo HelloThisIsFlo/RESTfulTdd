@@ -2,10 +2,7 @@ package server;
 
 import httprequest.HttpRequest;
 import org.omg.CORBA.DynAnyPackage.InvalidValue;
-import server.request.GetTransactionRequest;
-import server.request.PutTransactionRequest;
-import server.request.Request;
-import server.request.InvalidHttpRequest;
+import server.request.*;
 
 /**
  * Build a Request executable from the server
@@ -19,16 +16,19 @@ public class RequestBuilder {
 
     private final HttpRequest httpRequest;
 
-    public RequestBuilder(HttpRequest httpRequest) {
+    private RequestBuilder(HttpRequest httpRequest) {
         this.httpRequest = httpRequest;
     }
 
-    public Request build() throws InvalidHttpRequest {
+    public static Request fromHttpRequest(HttpRequest httpRequest) throws InvalidHttpRequest{
+        return new RequestBuilder(httpRequest).build();
+    }
+
+    private Request build() throws InvalidHttpRequest {
         ensureHttpRequestValid();
         switch (httpRequest.getHttpMethod()) {
             case GET:
-                long parameter = getLongParameter();
-                return new GetTransactionRequest(parameter);
+                return buildGetRequest();
 
             case PUT:
                 String payload = getPayload();
@@ -37,6 +37,37 @@ public class RequestBuilder {
             default:
                 throw new InvalidHttpRequest();
         }
+    }
+
+    private Request buildGetRequest() throws InvalidHttpRequest {
+        switch (httpRequest.getMethod()) {
+            case TRANSACTION:
+                return buildGetTransactionRequest();
+
+            case TYPES:
+                return buildGetTypesRequest();
+
+            case SUM:
+                return buildGetSumRequest();
+
+            default:
+                throw new InvalidHttpRequest();
+        }
+    }
+
+    private GetTransactionRequest buildGetTransactionRequest() throws InvalidHttpRequest {
+        long parameter = getLongParameter();
+        return new GetTransactionRequest(parameter);
+    }
+
+    private GetTypesRequest buildGetTypesRequest() {
+        String typeName = httpRequest.getParameter();
+        return new GetTypesRequest(typeName);
+    }
+
+    private GetSumRequest buildGetSumRequest() throws InvalidHttpRequest {
+        long parameter = getLongParameter();
+        return new GetSumRequest(parameter);
     }
 
     private long getLongParameter() throws InvalidHttpRequest {
