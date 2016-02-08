@@ -2,6 +2,8 @@ package server;
 
 import data.Storage;
 import data.Transaction;
+import json.Json;
+import json.JsonMockImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -25,6 +27,7 @@ public class ServerTest {
     @Mock
     Storage storage;
     RequestBuilder requestBuilder;
+    Json json;
     @Mock
     RequestExecutedCallback requestExecutedCallback;
     @Captor
@@ -40,7 +43,8 @@ public class ServerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        requestBuilder = new RequestBuilderImpl();
+        json = new JsonMockImpl();
+        requestBuilder = new RequestBuilderImpl(json);
         server = new Server(storage, requestBuilder);
     }
 
@@ -55,8 +59,6 @@ public class ServerTest {
         assertEquals(PAYLOAD, resultPayload);
         assertEquals(TRANSACTION_ID, resultId);
     }
-
-
 
     @Test (expected = InvalidHttpRequest.class)
     public void wrongRequest_throwException() throws Exception {

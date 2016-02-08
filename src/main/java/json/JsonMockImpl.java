@@ -3,10 +3,10 @@ package json;
 /**
  * Implementation of the Json Interface that directly creates the expected strings
  */
-public class JsonHardImpl implements Json{
+public class JsonMockImpl implements Json{
 
     @Override
-    public String createStatusOk() {
+    public String makeStatusOk() {
         return "{ \"status\": \"ok\" }";
     }
 }

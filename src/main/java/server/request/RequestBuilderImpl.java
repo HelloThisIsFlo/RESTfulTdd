@@ -1,6 +1,7 @@
 package server.request;
 
 import httprequest.HttpRequest;
+import json.Json;
 
 /**
  * Build a Request executable from the server
@@ -12,7 +13,12 @@ import httprequest.HttpRequest;
  */
 public class RequestBuilderImpl implements RequestBuilder {
 
+    private final Json json;
     private HttpRequest httpRequest;
+
+    public RequestBuilderImpl(Json json) {
+        this.json = json;
+    }
 
     public Request buildFromHttpRequest(HttpRequest httpRequest) throws InvalidHttpRequest{
         this.httpRequest = httpRequest;
@@ -32,7 +38,7 @@ public class RequestBuilderImpl implements RequestBuilder {
     private Request buildPutRequest() throws InvalidHttpRequest {
         String payload = getPayload();
         long transactionId = getLongParameter();
-        return new PutTransactionRequest(transactionId, payload);
+        return new PutTransactionRequest(json, transactionId, payload);
     }
 
     private Request buildGetRequest() throws InvalidHttpRequest {

@@ -4,7 +4,7 @@ package json;
 public interface Json {
 
 
-    String createStatusOk();
+    String makeStatusOk();
 
 
 

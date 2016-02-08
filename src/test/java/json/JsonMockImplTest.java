@@ -6,18 +6,18 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 
-public class JsonHardImplTest {
+public class JsonMockImplTest {
 
     private Json json;
 
     @Before
     public void setUp() throws Exception {
-        json = new JsonHardImpl();
+        json = new JsonMockImpl();
     }
 
     @Test
     public void createStatusOkRequest() throws Exception {
-        String result = json.createStatusOk();
+        String result = json.makeStatusOk();
         assertEquals(result, "{ \"status\": \"ok\" }");
     }
 }
