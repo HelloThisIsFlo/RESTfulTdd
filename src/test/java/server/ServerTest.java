@@ -56,6 +56,8 @@ public class ServerTest {
         assertEquals(TRANSACTION_ID, resultId);
     }
 
+
+
     @Test (expected = InvalidHttpRequest.class)
     public void wrongRequest_throwException() throws Exception {
         HttpRequest httpRequest = makePutRequestFromUrl("/sf/transaction/" + TRANSACTION_ID);
