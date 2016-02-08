@@ -1,5 +1,6 @@
 package server.request;
 
+import server.RequestExecutedCallback;
 import server.Server;
 
 /**
@@ -7,6 +8,6 @@ import server.Server;
  */
 public interface Request {
 
-    void execute(Server server);
+    void execute(Server server, RequestExecutedCallback callback);
 
 }

@@ -20,7 +20,7 @@ public class Server {
     public void execute(HttpRequest httpRequest, RequestExecutedCallback callback) throws InvalidHttpRequest {
         Request request = requestBuilder.buildFromHttpRequest(httpRequest);
 
-        request.execute(this);
+        request.execute(this, callback);
     }
 
     public void save(Transaction data) {

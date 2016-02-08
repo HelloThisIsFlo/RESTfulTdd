@@ -1,5 +1,6 @@
 package server.request;
 
+import server.RequestExecutedCallback;
 import server.Server;
 
 public class GetTransactionRequest implements Request {
@@ -11,7 +12,7 @@ public class GetTransactionRequest implements Request {
     }
 
     @Override
-    public void execute(Server server) {
+    public void execute(Server server, RequestExecutedCallback callback) {
         server.get(id);
     }
 }

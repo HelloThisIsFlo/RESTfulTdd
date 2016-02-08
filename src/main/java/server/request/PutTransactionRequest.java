@@ -1,6 +1,7 @@
 package server.request;
 
 import data.Transaction;
+import server.RequestExecutedCallback;
 import server.Server;
 
 public class PutTransactionRequest implements Request {
@@ -14,7 +15,7 @@ public class PutTransactionRequest implements Request {
     }
 
     @Override
-    public void execute(Server server) {
+    public void execute(Server server, RequestExecutedCallback callback) {
         Transaction transaction = new Transaction(id, payload);
         server.save(transaction);
     }
