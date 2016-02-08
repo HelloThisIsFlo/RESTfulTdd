@@ -17,24 +17,10 @@ public class Server {
         this.requestBuilder = requestBuilder;
     }
 
-    public void execute(HttpRequest httpRequest) throws InvalidHttpRequest {
+    public void execute(HttpRequest httpRequest, RequestExecutedCallback callback) throws InvalidHttpRequest {
         Request request = requestBuilder.buildFromHttpRequest(httpRequest);
 
         request.execute(this);
-
-
-//
-//        if (httpRequest.isValid()) {
-//            if (httpRequest.getHttpMethod() == HttpRequest.HttpMethod.GET) {
-//                long transactionId = Long.parseLong(httpRequest.getParameter());
-//                storage.get(transactionId);
-//            } else {
-//                String parameter = httpRequest.getParameter();
-//                String payload = httpRequest.getPayload();
-//                Transaction data = new Transaction(Integer.parseInt(parameter), payload);
-//                storage.save(data);
-//            }
-//        }
     }
 
     public void save(Transaction data) {
@@ -44,7 +30,4 @@ public class Server {
     public Transaction get(long transactionId) {
         return storage.get(transactionId);
     }
-
-
-
 }

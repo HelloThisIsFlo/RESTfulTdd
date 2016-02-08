@@ -18,8 +18,6 @@ import server.request.RequestBuilderImpl;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-
-
 public class ServerTest {
 
     private static String PAYLOAD = "Hello this is Payload!";
@@ -27,6 +25,8 @@ public class ServerTest {
     @Mock
     Storage storage;
     RequestBuilder requestBuilder;
+    @Mock
+    RequestExecutedCallback requestExecutedCallback;
     @Captor
     ArgumentCaptor<Transaction> transactionCaptor;
     private Server server;
@@ -47,7 +47,7 @@ public class ServerTest {
     @Test
     public void putRequest_saveToStorage() throws Exception {
         HttpRequest httpRequest = makePutRequestFromUrl("/transactionservice/transaction/" + TRANSACTION_ID);
-        server.execute(httpRequest);
+        server.execute(httpRequest, requestExecutedCallback);
 
         verify(storage).save(transactionCaptor.capture());
         String resultPayload = transactionCaptor.getValue().getPayload();
@@ -59,14 +59,14 @@ public class ServerTest {
     @Test (expected = InvalidHttpRequest.class)
     public void wrongRequest_throwException() throws Exception {
         HttpRequest httpRequest = makePutRequestFromUrl("/sf/transaction/" + TRANSACTION_ID);
-        server.execute(httpRequest);
+        server.execute(httpRequest, requestExecutedCallback);
         verify(storage, never()).save(any());
     }
 
     @Test (expected = InvalidHttpRequest.class)
     public void requestWithNoId_throwException() throws Exception {
         HttpRequest httpRequest = makePutRequestFromUrl("/transactionservice/transaction/noid");
-        server.execute(httpRequest);
+        server.execute(httpRequest, requestExecutedCallback);
         verify(storage, never()).save(any());
     }
 
@@ -74,8 +74,7 @@ public class ServerTest {
     public void getRequest_retrieveTransaction() throws Exception {
         HttpRequest httpRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, "/transactionservice/transaction/" + TRANSACTION_ID);
 
-        server.execute(httpRequest);
+        server.execute(httpRequest, requestExecutedCallback);
         verify(storage).get(eq(TRANSACTION_ID));
-
     }
 }
