@@ -28,9 +28,9 @@ public class Server {
         }
     }
 
-    public void save(Transaction data) throws ServerException{
+    public void save(Transaction data, long transactionId) throws ServerException{
         try {
-            storage.save(data);
+            storage.save(data, transactionId);
         } catch (TransactionNotSavedException e) {
             throw new ServerException("Transaction could not be saved");
         }

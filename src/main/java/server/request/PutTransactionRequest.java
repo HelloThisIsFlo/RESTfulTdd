@@ -21,7 +21,7 @@ public class PutTransactionRequest implements Request {
     @Override
     public void execute(Server server, RequestExecutedCallback callback) throws ServerException {
         Transaction transaction = new Transaction(id, payload);
-        server.save(transaction);
+        server.save(transaction, id);
         callback.onRequestExecuted(json.makeStatusOk());
     }
 }

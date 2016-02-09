@@ -54,7 +54,7 @@ public class ServerTest {
         HttpRequest httpRequest = makePutRequestFromUrl("/transactionservice/transaction/" + TRANSACTION_ID);
         server.execute(httpRequest, requestExecutedCallback);
 
-        verify(storage).save(transactionCaptor.capture());
+        verify(storage).save(transactionCaptor.capture(), eq(TRANSACTION_ID));
         String resultPayload = transactionCaptor.getValue().getPayload();
         long resultId = transactionCaptor.getValue().getTransactionId();
         assertEquals(PAYLOAD, resultPayload);
@@ -65,14 +65,14 @@ public class ServerTest {
     public void wrongRequest_throwException() throws Exception {
         HttpRequest httpRequest = makePutRequestFromUrl("/sf/transaction/" + TRANSACTION_ID);
         server.execute(httpRequest, requestExecutedCallback);
-        verify(storage, never()).save(any());
+        verify(storage, never()).save(any(), any());
     }
 
     @Test (expected = InvalidHttpRequest.class)
     public void requestWithNoId_throwException() throws Exception {
         HttpRequest httpRequest = makePutRequestFromUrl("/transactionservice/transaction/noid");
         server.execute(httpRequest, requestExecutedCallback);
-        verify(storage, never()).save(any());
+        verify(storage, never()).save(any(), any());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class ServerTest {
 
     @Test (expected = ServerException.class)
     public void failToSaveTransaction_throwServerException() throws Exception {
-        doThrow(new TransactionNotSavedException()).when(storage).save(any());
-        server.save(new Transaction(TRANSACTION_ID, PAYLOAD));
+        doThrow(new TransactionNotSavedException()).when(storage).save(any(), anyLong());
+        server.save(new Transaction(TRANSACTION_ID, PAYLOAD), TRANSACTION_ID);
     }
 }
