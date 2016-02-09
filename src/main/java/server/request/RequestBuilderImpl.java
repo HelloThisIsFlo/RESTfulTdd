@@ -62,7 +62,7 @@ public class RequestBuilderImpl implements RequestBuilder {
 
     private GetTransactionRequest buildGetTransactionRequest() throws InvalidHttpRequest {
         long parameter = getLongParameter();
-        return new GetTransactionRequest(parameter);
+        return new GetTransactionRequest(json, parameter);
     }
 
     private GetTypesRequest buildGetTypesRequest() {

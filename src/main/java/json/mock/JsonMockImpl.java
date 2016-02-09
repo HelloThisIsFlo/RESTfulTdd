@@ -15,6 +15,11 @@ public class JsonMockImpl implements Json {
     }
 
     @Override
+    public String makeErrorStatus() {
+        return "{ \"status\": \"Error\"}";
+    }
+
+    @Override
     public Transaction parseJsonToTransaction(String jsonTransaction) throws JsonParseException {
         JsonMockTransactionParser parser = new JsonMockTransactionParser(jsonTransaction);
         return parser.parseTransaction();
