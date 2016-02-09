@@ -1,6 +1,6 @@
 package json;
 
-import data.TransactionTemp;
+import data.Transaction;
 
 // todo implement with Gson also
 public interface Json {
@@ -8,7 +8,7 @@ public interface Json {
 
     String makeStatusOk();
 
-    TransactionTemp parseJsonToTransaction(String jsonTransaction) throws JsonParseException;
-    String serializeFromTransaction(TransactionTemp transaction);
+    Transaction parseJsonToTransaction(String jsonTransaction) throws JsonParseException;
+    String serializeFromTransaction(Transaction transaction);
 
 }

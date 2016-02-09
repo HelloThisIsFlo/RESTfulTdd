@@ -22,13 +22,13 @@ public class PutTransactionRequestTest {
     Json json;
 
     private final static long TRANSACTION_ID= 15561;
-    private final static String PAYLOAD = "Hello this is payload!";
+    private static final String TRANSACTION_JSON = "{ \"amount\":641.45,\"type\":\"house_insurance\",\"parent_id\":6854316581 }";
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         json = new JsonMockImpl();
-        request = new PutTransactionRequest(json, TRANSACTION_ID, PAYLOAD);
+        request = new PutTransactionRequest(json, TRANSACTION_ID, TRANSACTION_JSON);
     }
 
     @Test

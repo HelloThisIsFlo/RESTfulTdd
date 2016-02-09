@@ -1,6 +1,6 @@
 package json.mock;
 
-import data.TransactionTemp;
+import data.Transaction;
 import json.JsonParseException;
 
 class JsonMockTransactionParser {
@@ -16,13 +16,13 @@ class JsonMockTransactionParser {
         this.json = json;
     }
 
-    TransactionTemp parseTransaction() throws JsonParseException {
+    Transaction parseTransaction() throws JsonParseException {
         fragments = json.split(",");
 
         extractAmount();
         extractType();
         extractParentId();
-        return new TransactionTemp(amount, type, parentId);
+        return new Transaction(amount, type, parentId);
     }
 
     private void extractAmount() throws JsonParseException {

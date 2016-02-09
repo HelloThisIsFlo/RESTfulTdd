@@ -23,8 +23,9 @@ import static org.mockito.Mockito.*;
 
 public class ServerTest {
 
-    private static String PAYLOAD = "Hello this is Payload!";
-    private static long TRANSACTION_ID = 2371;
+    private static final long TRANSACTION_ID = 2371;
+    private static final String TRANSACTION_JSON = "{ \"amount\":641.45,\"type\":\"house_insurance\",\"parent_id\":6854316581 }";
+    private static final Transaction TRANSACTION = new Transaction(641.45, "house_insurance", 6854316581L);
     @Mock
     Storage storage;
     RequestBuilder requestBuilder;
@@ -37,7 +38,7 @@ public class ServerTest {
 
     private static HttpRequest makePutRequestFromUrl(String url) throws ImpossibleToAddPayloadException {
         HttpRequest httpRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.PUT, url);
-        httpRequest.setPayload(PAYLOAD);
+        httpRequest.setPayload(TRANSACTION_JSON);
         return httpRequest;
     }
 
@@ -55,10 +56,8 @@ public class ServerTest {
         server.execute(httpRequest, requestExecutedCallback);
 
         verify(storage).save(transactionCaptor.capture(), eq(TRANSACTION_ID));
-        String resultPayload = transactionCaptor.getValue().getPayload();
-        long resultId = transactionCaptor.getValue().getTransactionId();
-        assertEquals(PAYLOAD, resultPayload);
-        assertEquals(TRANSACTION_ID, resultId);
+        Transaction resultTransaction = transactionCaptor.getValue();
+        assertEquals(TRANSACTION, resultTransaction);
     }
 
     @Test (expected = InvalidHttpRequest.class)
@@ -86,6 +85,6 @@ public class ServerTest {
     @Test (expected = ServerException.class)
     public void failToSaveTransaction_throwServerException() throws Exception {
         doThrow(new TransactionNotSavedException()).when(storage).save(any(), anyLong());
-        server.save(new Transaction(TRANSACTION_ID, PAYLOAD), TRANSACTION_ID);
+        server.save(TRANSACTION, TRANSACTION_ID);
     }
 }

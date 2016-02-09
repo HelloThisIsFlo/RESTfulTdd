@@ -1,13 +1,13 @@
 package json.mock;
 
-import data.TransactionTemp;
+import data.Transaction;
 
 class JsonMockTransactionSerializer {
 
-    private final TransactionTemp transaction;
+    private final Transaction transaction;
     private String json;
 
-    public JsonMockTransactionSerializer(TransactionTemp transaction) {
+    public JsonMockTransactionSerializer(Transaction transaction) {
         this.transaction = transaction;
         this.json = "";
     }

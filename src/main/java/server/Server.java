@@ -32,7 +32,7 @@ public class Server {
         try {
             storage.save(data, transactionId);
         } catch (TransactionNotSavedException e) {
-            throw new ServerException("Transaction could not be saved");
+            throw new ServerException("Transaction could not be saved", e);
         }
     }
 

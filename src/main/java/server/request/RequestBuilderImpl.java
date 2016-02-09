@@ -9,7 +9,10 @@ import json.Json;
  * This class allow to conceal the "switch" statement in a single class. It will also be the only class to recompile
  * when a new Request type is added
  *
- * todo Not so sure about above sentence. To check in a couple of weeks when more experience with dependencies
+ * I think this is true because the implementation of the RequestBuilder is abstracted by an interface so the flow of
+ * dependencies points towards this interface.
+ * Then when a new Request type is added, only the implementation recompile not the object using it through the
+ * interface.
  */
 public class RequestBuilderImpl implements RequestBuilder {
 

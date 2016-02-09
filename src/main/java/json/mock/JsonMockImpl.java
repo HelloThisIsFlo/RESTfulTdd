@@ -1,6 +1,6 @@
 package json.mock;
 
-import data.TransactionTemp;
+import data.Transaction;
 import json.Json;
 import json.JsonParseException;
 
@@ -15,13 +15,13 @@ public class JsonMockImpl implements Json {
     }
 
     @Override
-    public TransactionTemp parseJsonToTransaction(String jsonTransaction) throws JsonParseException {
+    public Transaction parseJsonToTransaction(String jsonTransaction) throws JsonParseException {
         JsonMockTransactionParser parser = new JsonMockTransactionParser(jsonTransaction);
         return parser.parseTransaction();
     }
 
     @Override
-    public String serializeFromTransaction(TransactionTemp transaction) {
+    public String serializeFromTransaction(Transaction transaction) {
         JsonMockTransactionSerializer serializer = new JsonMockTransactionSerializer(transaction);
         return serializer.serializeFromTransaction();
     }

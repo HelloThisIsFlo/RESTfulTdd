@@ -1,6 +1,6 @@
 package json;
 
-import data.TransactionTemp;
+import data.Transaction;
 import json.mock.JsonMockImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class JsonMockImplTest {
     @Test
     public void testParseTransactionFromJsonString() throws Exception {
         String jsonTransaction = "{ \"amount\":250.5,\"type\":\"This is a test\",\"parent_id\":25043 }";
-        TransactionTemp transaction = json.parseJsonToTransaction(jsonTransaction);
+        Transaction transaction = json.parseJsonToTransaction(jsonTransaction);
 
         assertEquals(250.5, transaction.amount, 0.1);
         assertEquals("This is a test", transaction.type);
@@ -42,7 +42,7 @@ public class JsonMockImplTest {
 
     @Test
     public void serializeFromTransaction() throws Exception {
-        TransactionTemp transaction = new TransactionTemp(532.12, "turtle", 25888801);
+        Transaction transaction = new Transaction(532.12, "turtle", 25888801);
         String expectedJsonResult = "{ \"amount\":532.12,\"type\":\"turtle\",\"parent_id\":25888801 }";
 
         String jsonResult = json.serializeFromTransaction(transaction);
