@@ -3,7 +3,7 @@ package json.mock;
 import data.TransactionTemp;
 import json.JsonParseException;
 
-class JsonMockParser {
+class JsonMockTransactionParser {
 
     private final String json;
     private String[] fragments;
@@ -12,7 +12,7 @@ class JsonMockParser {
     private String type;
     private long parentId;
 
-    public JsonMockParser(String json) {
+    public JsonMockTransactionParser(String json) {
         this.json = json;
     }
 

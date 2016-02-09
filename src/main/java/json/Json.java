@@ -9,6 +9,6 @@ public interface Json {
     String makeStatusOk();
 
     TransactionTemp parseJsonToTransaction(String jsonTransaction) throws JsonParseException;
-
+    String serializeFromTransaction(TransactionTemp transaction);
 
 }

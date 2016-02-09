@@ -38,4 +38,15 @@ public class JsonMockImplTest {
         String jsonTransaction = "{ \"amount\":\"Oooops this is an error!!\",\"type\":\"This is a test\",\"parent_id\":25043 }";
         json.parseJsonToTransaction(jsonTransaction);
     }
+
+
+    @Test
+    public void serializeFromTransaction() throws Exception {
+        TransactionTemp transaction = new TransactionTemp(532.12, "turtle", 25888801);
+        String expectedJsonResult = "{ \"amount\":532.12,\"type\":\"turtle\",\"parent_id\":25888801 }";
+
+        String jsonResult = json.serializeFromTransaction(transaction);
+
+        assertEquals(expectedJsonResult, jsonResult);
+    }
 }

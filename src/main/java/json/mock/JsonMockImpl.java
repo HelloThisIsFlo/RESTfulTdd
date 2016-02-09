@@ -16,7 +16,13 @@ public class JsonMockImpl implements Json {
 
     @Override
     public TransactionTemp parseJsonToTransaction(String jsonTransaction) throws JsonParseException {
-        JsonMockParser parser = new JsonMockParser(jsonTransaction);
+        JsonMockTransactionParser parser = new JsonMockTransactionParser(jsonTransaction);
         return parser.parseTransaction();
+    }
+
+    @Override
+    public String serializeFromTransaction(TransactionTemp transaction) {
+        JsonMockTransactionSerializer serializer = new JsonMockTransactionSerializer(transaction);
+        return serializer.serializeFromTransaction();
     }
 }
