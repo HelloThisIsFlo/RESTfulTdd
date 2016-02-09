@@ -2,6 +2,7 @@ package server;
 
 import data.Storage;
 import data.Transaction;
+import data.TransactionNotSavedException;
 import json.Json;
 import json.JsonMockImpl;
 import org.junit.Before;
@@ -80,5 +81,11 @@ public class ServerTest {
 
         server.execute(httpRequest, requestExecutedCallback);
         verify(storage).get(eq(TRANSACTION_ID));
+    }
+
+    @Test (expected = ServerException.class)
+    public void failToSaveTransaction_throwServerException() throws Exception {
+        doThrow(new TransactionNotSavedException()).when(storage).save(any());
+        server.save(new Transaction(TRANSACTION_ID, PAYLOAD));
     }
 }

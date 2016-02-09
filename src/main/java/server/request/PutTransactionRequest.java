@@ -4,6 +4,7 @@ import data.Transaction;
 import json.Json;
 import server.RequestExecutedCallback;
 import server.Server;
+import server.ServerException;
 
 public class PutTransactionRequest implements Request {
 
@@ -18,9 +19,9 @@ public class PutTransactionRequest implements Request {
     }
 
     @Override
-    public void execute(Server server, RequestExecutedCallback callback) {
+    public void execute(Server server, RequestExecutedCallback callback) throws ServerException {
         Transaction transaction = new Transaction(id, payload);
         server.save(transaction);
-        callback.onRequestExecuted("{ \"status\": \"ok\" }");
+        callback.onRequestExecuted(json.makeStatusOk());
     }
 }
