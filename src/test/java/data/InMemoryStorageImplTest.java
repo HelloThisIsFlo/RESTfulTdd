@@ -28,15 +28,6 @@ public class InMemoryStorageImplTest {
         transactionWithIds.add(new TransactionWithId(321644889L, new Transaction(6554.5, "thing", 53453)));
     }
 
-    @Test
-    public void saveTransaction_present() throws Exception {
-        Transaction transaction = transactionWithIds.get(1).transaction;
-        long id = transactionWithIds.get(1).transactionId;
-        storage.save(transaction, id);
-
-        assertTrue(storage.isPresent(id));
-    }
-
     @Test (expected = TransactionNotSavedException.class)
     public void saveNullTransaction_throwException() throws Exception {
         storage.save(null, 6354L);
