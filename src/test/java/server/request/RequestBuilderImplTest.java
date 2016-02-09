@@ -3,7 +3,7 @@ package server.request;
 import httprequest.HttpRequest;
 import httprequest.HttpRequestImpl;
 import json.Json;
-import json.JsonMockImpl;
+import json.mock.JsonMockImpl;
 import org.junit.Before;
 import org.junit.Test;
 

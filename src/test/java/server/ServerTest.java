@@ -4,7 +4,7 @@ import data.Storage;
 import data.Transaction;
 import data.TransactionNotSavedException;
 import json.Json;
-import json.JsonMockImpl;
+import json.mock.JsonMockImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;

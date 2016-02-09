@@ -1,7 +1,7 @@
 package server.request;
 
 import json.Json;
-import json.JsonMockImpl;
+import json.mock.JsonMockImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
