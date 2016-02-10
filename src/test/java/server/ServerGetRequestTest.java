@@ -57,4 +57,5 @@ public class ServerGetRequestTest {
         server.execute(httpRequest, requestExecutedCallback);
         verify(requestExecutedCallback).onRequestExecuted(eq(TRANSACTION_JSON));
     }
+
 }

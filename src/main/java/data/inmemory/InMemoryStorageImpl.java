@@ -6,6 +6,7 @@ import data.TransactionNotSavedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,5 +32,22 @@ public class InMemoryStorageImpl implements Storage {
     @Override
     public Transaction get(long transactionId) {
         return transactions.get(transactionId);
+    }
+
+    @Override
+    public List<Long> getFromType(String type) {
+        List<Long> result = new ArrayList<>();
+        for (Map.Entry<Long, Transaction> entry : transactions.entrySet()) {
+            Transaction transaction = entry.getValue();
+            long transactionId = entry.getKey();
+            if (isTransactionOfType(transaction, type)) {
+                result.add(transactionId);
+            }
+        }
+        return result;
+    }
+
+    private boolean isTransactionOfType(Transaction transaction, String type) {
+        return type != null && type.equals(transaction.type);
     }
 }
