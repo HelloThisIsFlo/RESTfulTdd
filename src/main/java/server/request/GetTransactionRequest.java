@@ -6,7 +6,7 @@ import server.RequestExecutedCallback;
 import server.Server;
 import server.ServerException;
 
-public class GetTransactionRequest implements Request {
+class GetTransactionRequest implements Request {
 
     private final Json json;
     private final long id;

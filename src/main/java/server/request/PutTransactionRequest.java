@@ -7,7 +7,7 @@ import server.RequestExecutedCallback;
 import server.Server;
 import server.ServerException;
 
-public class PutTransactionRequest implements Request {
+class PutTransactionRequest implements Request {
 
     private final Json json;
     private final String payload;

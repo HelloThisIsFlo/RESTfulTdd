@@ -3,7 +3,7 @@ package server.request;
 import server.RequestExecutedCallback;
 import server.Server;
 
-public class GetSumRequest implements Request {
+class GetSumRequest implements Request {
 
     private final long transactionId;
 

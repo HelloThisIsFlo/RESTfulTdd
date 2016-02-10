@@ -3,7 +3,7 @@ package server.request;
 import server.RequestExecutedCallback;
 import server.Server;
 
-public class GetTypesRequest implements Request {
+class GetTypesRequest implements Request {
 
     private final String type;
 
