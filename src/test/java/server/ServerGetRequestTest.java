@@ -3,6 +3,7 @@ package server;
 import data.Storage;
 import data.Transaction;
 import data.inmemory.InMemoryStorageImpl;
+import data.inmemory.TransactionWithId;
 import httprequest.HttpRequest;
 import httprequest.HttpRequestImpl;
 import httprequest.ImpossibleToAddPayloadException;
@@ -16,6 +17,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import server.request.RequestBuilder;
 import server.request.RequestBuilderImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.reset;
@@ -34,7 +38,10 @@ public class ServerGetRequestTest {
     RequestExecutedCallback requestExecutedCallback;
     @Captor
     ArgumentCaptor<Transaction> transactionCaptor;
+    List<TransactionWithId> transactionWithIds;
     private Server server;
+
+
 
     @Before
     public void setUp() throws Exception {
@@ -45,6 +52,13 @@ public class ServerGetRequestTest {
         server = new Server(storage, requestBuilder);
 
         storage.save(TRANSACTION, TRANSACTION_ID);
+
+        transactionWithIds = new ArrayList<>(5);
+        transactionWithIds.add(new TransactionWithId(656565L, new Transaction(534.3542, "car", 454684)));
+        transactionWithIds.add(new TransactionWithId(4445L, new Transaction(3121.1, "boat", 366541)));
+        transactionWithIds.add(new TransactionWithId(99789L, new Transaction(54.23, "truck", 12)));
+        transactionWithIds.add(new TransactionWithId(6677L, new Transaction(986.4, "boat", 3784534534534L)));
+        transactionWithIds.add(new TransactionWithId(321644889L, new Transaction(6554.5, "boat", 53453)));
     }
 
     private static HttpRequest makeGetRequestFromUrl(String url) throws ImpossibleToAddPayloadException {
@@ -58,4 +72,12 @@ public class ServerGetRequestTest {
         verify(requestExecutedCallback).onRequestExecuted(eq(TRANSACTION_JSON));
     }
 
+    @Test
+    public void getTypes_callbackCalledWithCorrectListOfTypes() throws Exception {
+        for (TransactionWithId transactionWithId : transactionWithIds) {
+            storage.save(transactionWithId.transaction, transactionWithId.transactionId);
+        }
+        //todo after json implementation
+
+    }
 }

@@ -5,6 +5,9 @@ import json.mock.JsonMockImpl;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -48,5 +51,19 @@ public class JsonMockImplTest {
         String jsonResult = json.serializeFromTransaction(transaction);
 
         assertEquals(expectedJsonResult, jsonResult);
+    }
+
+    @Test
+    public void makeJsonListFromListOfLong() throws Exception {
+        List<Long> longs = new ArrayList<>(4);
+        longs.add(654654L);
+        longs.add(125564L);
+        longs.add(651L);
+        longs.add(98465132L);
+        String expectedResult = "[654654, 125564, 651, 98465132]";
+
+        String result = json.makeFromTransactionIdList(longs);
+
+        assertEquals(expectedResult, result);
     }
 }

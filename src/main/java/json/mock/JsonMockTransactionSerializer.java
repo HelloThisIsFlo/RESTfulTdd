@@ -9,10 +9,10 @@ class JsonMockTransactionSerializer {
 
     public JsonMockTransactionSerializer(Transaction transaction) {
         this.transaction = transaction;
-        this.json = "";
     }
 
     public String serializeFromTransaction() {
+        this.json = "";
         appendHeader();
         appendAmount();
         appendType();

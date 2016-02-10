@@ -4,6 +4,8 @@ import data.Transaction;
 import json.Json;
 import json.JsonParseException;
 
+import java.util.List;
+
 /**
  * Implementation of the Json Interface that directly creates the expected strings
  */
@@ -29,5 +31,11 @@ public class JsonMockImpl implements Json {
     public String serializeFromTransaction(Transaction transaction) {
         JsonMockTransactionSerializer serializer = new JsonMockTransactionSerializer(transaction);
         return serializer.serializeFromTransaction();
+    }
+
+    @Override
+    public String makeFromTransactionIdList(List<Long> longs) {
+        JsonMockIdListSerializer serializer = new JsonMockIdListSerializer(longs);
+        return serializer.serializeFromIds();
     }
 }
