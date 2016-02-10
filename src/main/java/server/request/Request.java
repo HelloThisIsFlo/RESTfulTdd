@@ -1,5 +1,6 @@
 package server.request;
 
+import data.Storage;
 import server.RequestExecutedCallback;
 import server.Server;
 import server.ServerException;
@@ -9,6 +10,6 @@ import server.ServerException;
  */
 public interface Request {
 
-    void execute(Server server, RequestExecutedCallback callback) throws ServerException;
+    void execute(Storage storage, RequestExecutedCallback callback) throws ServerException;
 
 }

@@ -1,5 +1,6 @@
 package server.request;
 
+import data.Storage;
 import data.Transaction;
 import json.Json;
 import server.RequestExecutedCallback;
@@ -17,8 +18,8 @@ class GetTransactionRequest implements Request {
     }
 
     @Override
-    public void execute(Server server, RequestExecutedCallback callback) throws ServerException {
-        Transaction transaction = server.get(id);
+    public void execute(Storage storage, RequestExecutedCallback callback) throws ServerException {
+        Transaction transaction = storage.get(id);
         String response;
         if (transaction != null) { // todo improve error handling here
             response = json.serializeFromTransaction(transaction);

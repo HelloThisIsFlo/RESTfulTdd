@@ -21,16 +21,16 @@ import server.request.RequestBuilderImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
 
 public class ServerGetRequestTest {
 
     private static final long TRANSACTION_ID = 2371;
     private static final String TRANSACTION_JSON = "{ \"amount\":641.45,\"type\":\"house_insurance\",\"parent_id\":6854316581 }";
     private static final Transaction TRANSACTION = new Transaction(641.45, "house_insurance", 6854316581L);
+    private static final String TEST_TYPE = "boat";
     Storage storage;
     RequestBuilder requestBuilder;
     Json json;
@@ -55,10 +55,10 @@ public class ServerGetRequestTest {
 
         transactionWithIds = new ArrayList<>(5);
         transactionWithIds.add(new TransactionWithId(656565L, new Transaction(534.3542, "car", 454684)));
-        transactionWithIds.add(new TransactionWithId(4445L, new Transaction(3121.1, "boat", 366541)));
+        transactionWithIds.add(new TransactionWithId(4445L, new Transaction(3121.1, TEST_TYPE, 366541)));
         transactionWithIds.add(new TransactionWithId(99789L, new Transaction(54.23, "truck", 12)));
-        transactionWithIds.add(new TransactionWithId(6677L, new Transaction(986.4, "boat", 3784534534534L)));
-        transactionWithIds.add(new TransactionWithId(321644889L, new Transaction(6554.5, "boat", 53453)));
+        transactionWithIds.add(new TransactionWithId(6677L, new Transaction(986.4, TEST_TYPE, 3784534534534L)));
+        transactionWithIds.add(new TransactionWithId(321644889L, new Transaction(6554.5, TEST_TYPE, 53453)));
     }
 
     private static HttpRequest makeGetRequestFromUrl(String url) throws ImpossibleToAddPayloadException {
@@ -77,7 +77,14 @@ public class ServerGetRequestTest {
         for (TransactionWithId transactionWithId : transactionWithIds) {
             storage.save(transactionWithId.transaction, transactionWithId.transactionId);
         }
-        //todo after json implementation
+        List<Long> expectedIds = new ArrayList<>(3); //todo maybe implement a better solution where hte order doesn't matter
+        expectedIds.add(321644889L);
+        expectedIds.add(6677L);
+        expectedIds.add(4445L);
+        String expectedResult = json.makeFromTransactionIdList(expectedIds);
 
+        HttpRequest httpRequest = makeGetRequestFromUrl("/transactionservice/types/" + TEST_TYPE);
+        server.execute(httpRequest, requestExecutedCallback);
+        verify(requestExecutedCallback).onRequestExecuted(eq(expectedResult));
     }
 }

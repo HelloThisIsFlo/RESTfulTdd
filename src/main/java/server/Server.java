@@ -22,7 +22,7 @@ public class Server {
         Request request = requestBuilder.buildFromHttpRequest(httpRequest);
 
         try {
-            request.execute(this, callback);
+            request.execute(storage, callback);
         } catch (ServerException e) {
             e.printStackTrace();
         }

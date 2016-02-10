@@ -1,5 +1,6 @@
 package server.request;
 
+import data.Storage;
 import server.RequestExecutedCallback;
 import server.Server;
 
@@ -12,7 +13,7 @@ class GetSumRequest implements Request {
     }
 
     @Override
-    public void execute(Server server, RequestExecutedCallback callback) {
+    public void execute(Storage storage, RequestExecutedCallback callback) {
 
     }
 }

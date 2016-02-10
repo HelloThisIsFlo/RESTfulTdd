@@ -1,6 +1,8 @@
 package server.request;
 
+import data.Storage;
 import data.Transaction;
+import data.TransactionNotSavedException;
 import json.Json;
 import json.JsonParseException;
 import server.RequestExecutedCallback;
@@ -21,10 +23,18 @@ class PutTransactionRequest implements Request {
     }
 
     @Override
-    public void execute(Server server, RequestExecutedCallback callback) throws ServerException {
+    public void execute(Storage storage, RequestExecutedCallback callback) throws ServerException {
         parseTransaction();
-        server.save(transaction, id);
+        saveTransactionToStorage(storage);
         callback.onRequestExecuted(json.makeStatusOk());
+    }
+
+    private void saveTransactionToStorage(Storage storage) throws ServerException {
+        try {
+            storage.save(transaction, id);
+        } catch (TransactionNotSavedException e) {
+            throw new ServerException("Transaction could not be saved", e);
+        }
     }
 
     private void parseTransaction() throws ServerException {

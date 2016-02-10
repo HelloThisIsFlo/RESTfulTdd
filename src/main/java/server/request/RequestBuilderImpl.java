@@ -67,7 +67,7 @@ public class RequestBuilderImpl implements RequestBuilder {
 
     private GetTypesRequest buildGetTypesRequest() {
         String typeName = httpRequest.getParameter();
-        return new GetTypesRequest(typeName);
+        return new GetTypesRequest(json, typeName);
     }
 
     private GetSumRequest buildGetSumRequest() throws InvalidHttpRequest {
