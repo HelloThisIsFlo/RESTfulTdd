@@ -21,7 +21,10 @@ import server.request.RequestBuilderImpl;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class ServerTest {
+/**
+ * Test on all functionalities not related to a specific request implementation
+ */
+public class ServerGeneralTest {
 
     private static final long TRANSACTION_ID = 2371;
     private static final String TRANSACTION_JSON = "{ \"amount\":641.45,\"type\":\"house_insurance\",\"parent_id\":6854316581 }";
@@ -50,15 +53,6 @@ public class ServerTest {
         server = new Server(storage, requestBuilder);
     }
 
-    @Test
-    public void putRequest_saveToStorage() throws Exception {
-        HttpRequest httpRequest = makePutRequestFromUrl("/transactionservice/transaction/" + TRANSACTION_ID);
-        server.execute(httpRequest, requestExecutedCallback);
-
-        verify(storage).save(transactionCaptor.capture(), eq(TRANSACTION_ID));
-        Transaction resultTransaction = transactionCaptor.getValue();
-        assertEquals(TRANSACTION, resultTransaction);
-    }
 
     @Test (expected = InvalidHttpRequest.class)
     public void wrongRequest_throwException() throws Exception {
@@ -74,13 +68,6 @@ public class ServerTest {
         verify(storage, never()).save(any(), any());
     }
 
-    @Test
-    public void getRequest_retrieveTransaction() throws Exception {
-        HttpRequest httpRequest = new HttpRequestImpl(HttpRequestImpl.HttpMethod.GET, "/transactionservice/transaction/" + TRANSACTION_ID);
-
-        server.execute(httpRequest, requestExecutedCallback);
-        verify(storage).get(eq(TRANSACTION_ID));
-    }
 
     @Test (expected = ServerException.class)
     public void failToSaveTransaction_throwServerException() throws Exception {
