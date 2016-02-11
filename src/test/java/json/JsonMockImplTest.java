@@ -73,4 +73,12 @@ public class JsonMockImplTest {
 
         assertEquals(expectedResult, result);
     }
+
+    @Test
+    public void makeSumResult() throws Exception {
+        String result = json.makeFromSum(5.5);
+        String expected = "{\"sum\":5.5}";
+
+        assertEquals(expected, result);
+    }
 }

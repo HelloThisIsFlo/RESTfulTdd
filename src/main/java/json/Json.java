@@ -14,5 +14,6 @@ public interface Json {
     Transaction parseJsonToTransaction(String jsonTransaction) throws JsonParseException;
     String serializeFromTransaction(Transaction transaction);
     String makeFromTransactionIdList(List<Long> longs);
+    String makeFromSum(double sum);
 
 }

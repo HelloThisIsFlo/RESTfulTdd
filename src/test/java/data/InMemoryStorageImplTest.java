@@ -18,20 +18,33 @@ public class InMemoryStorageImplTest {
     List<TransactionWithId> transactionWithIds;
     private static final Transaction TEST_TRANSACTION = new Transaction(351531.534, "type", 654645645465L);
     private static final long TEST_TRANSACTION_ID = 351351153L;
+    private static final long PARENT_ID = 658465484685L;
 
     private static <T> void assertListHaveSameElements(List<T> list1, List<T> list2) {
-        assertTrue(list1.containsAll(list2) && list2.containsAll(list1));
+        try {
+            assertTrue(list1 != null && list2 != null &&list1.containsAll(list2) && list2.containsAll(list1));
+        } catch (AssertionError e) {
+            throw new AssertionError("\nExpected (In any order) :" + toStringEvenIfNull(list1) + "\nActual :" + toStringEvenIfNull(list2));
+        }
+    }
+
+    private static String toStringEvenIfNull(Object object) {
+        if (object != null) {
+            return object.toString();
+        } else {
+            return "null";
+        }
     }
 
     @Before
     public void setUp() throws Exception {
         storage = new InMemoryStorageImpl();
         transactionWithIds = new ArrayList<>(5);
-        transactionWithIds.add(new TransactionWithId(656565L, new Transaction(534.3542, "car", 454684)));
-        transactionWithIds.add(new TransactionWithId(4445L, new Transaction(3121.1, "boat", 366541)));
-        transactionWithIds.add(new TransactionWithId(99789L, new Transaction(54.23, "truck", 12)));
-        transactionWithIds.add(new TransactionWithId(6677L, new Transaction(986.4, "boat", 3784534534534L)));
-        transactionWithIds.add(new TransactionWithId(321644889L, new Transaction(6554.5, "boat", 53453)));
+        transactionWithIds.add(new TransactionWithId(656565L, new Transaction(534.3542, "car", PARENT_ID)));
+        transactionWithIds.add(new TransactionWithId(4445L, new Transaction(3121.1, "boat", PARENT_ID)));
+        transactionWithIds.add(new TransactionWithId(99789L, new Transaction(54.23, "truck", PARENT_ID)));
+        transactionWithIds.add(new TransactionWithId(6677L, new Transaction(986.4, "boat", PARENT_ID)));
+        transactionWithIds.add(new TransactionWithId(321644889L, new Transaction(6554.5, "boat", PARENT_ID)));
     }
 
     @Test (expected = TransactionNotSavedException.class)
@@ -76,5 +89,17 @@ public class InMemoryStorageImplTest {
         storage.get(TEST_TRANSACTION_ID);
     }
 
+    @Test
+    public void getTransactionsFromParentId() throws Exception {
+        List<Transaction> expected = new ArrayList<>(5);
+        for (TransactionWithId transactionWithId: transactionWithIds) {
+            storage.save(transactionWithId.transaction, transactionWithId.transactionId);
+            expected.add(transactionWithId.transaction);
+        }
+
+        List<Transaction> result = storage.getFromParentId(PARENT_ID);
+
+        assertListHaveSameElements(expected, result);
+    }
 
 }

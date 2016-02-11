@@ -56,4 +56,15 @@ public class InMemoryStorageImpl implements Storage {
     private boolean isTransactionOfType(Transaction transaction, String type) {
         return type != null && type.equals(transaction.type);
     }
+
+    @Override
+    public List<Transaction> getFromParentId(long parentId) {
+        List<Transaction> result = new ArrayList<>();
+        for (Transaction transaction : transactions.values()) {
+            if (transaction.parentId == parentId) {
+                result.add(transaction);
+            }
+        }
+        return result;
+    }
 }

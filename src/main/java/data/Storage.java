@@ -9,4 +9,5 @@ public interface Storage {
     boolean isPresent(long transactionId);
     Transaction get(long transactionId) throws TransactionNotFoundException;
     List<Long> getFromType(String type);
+    List<Transaction> getFromParentId(long parentId);
 }

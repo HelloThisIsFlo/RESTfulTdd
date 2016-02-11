@@ -72,7 +72,7 @@ public class RequestBuilderImpl implements RequestBuilder {
 
     private GetSumRequest buildGetSumRequest() throws InvalidHttpRequest {
         long parameter = getLongParameter();
-        return new GetSumRequest(parameter);
+        return new GetSumRequest(json, parameter);
     }
 
     private long getLongParameter() throws InvalidHttpRequest {

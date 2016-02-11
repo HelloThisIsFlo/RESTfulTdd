@@ -90,7 +90,7 @@ public class ServerGetRequestTest {
 
     @Test
     public void transactionNotFound_returnErrorStatusWithReason() throws Exception {
-        HttpRequest httpRequest = makeGetRequestFromUrl("/transactionservice/transaction/" + 56414516L);
+        HttpRequest httpRequest = makeGetRequestFromUrl("/transactionservice/transaction/" + 56414516L);//Random number
         server.execute(httpRequest, requestExecutedCallback);
         verify(requestExecutedCallback).onRequestExecuted(eq(json.makeStatusError("Transaction not found")));
     }

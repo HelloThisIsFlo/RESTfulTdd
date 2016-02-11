@@ -38,4 +38,9 @@ public class JsonMockImpl implements Json {
         JsonMockIdListSerializer serializer = new JsonMockIdListSerializer(longs);
         return serializer.serializeFromIds();
     }
+
+    @Override
+    public String makeFromSum(double sum) {
+        return "{\"sum\":" + sum + "}";
+    }
 }
