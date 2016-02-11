@@ -70,4 +70,11 @@ public class InMemoryStorageImplTest {
 
         assertListHaveSameElements(expectedTransactionsWithBoatType, resultTransactionsWithBoatType);
     }
+
+    @Test (expected = TransactionNotFoundException.class)
+    public void transactionNotFound_throwException() throws Exception {
+        storage.get(TEST_TRANSACTION_ID);
+    }
+
+
 }

@@ -49,7 +49,7 @@ public class ServerGetRequestTest {
         json = new JsonMockImpl();
         requestBuilder = new RequestBuilderImpl(json);
         storage = new InMemoryStorageImpl();
-        server = new Server(storage, requestBuilder);
+        server = new Server(json, storage, requestBuilder);
 
         storage.save(TRANSACTION, TRANSACTION_ID);
 
@@ -77,7 +77,7 @@ public class ServerGetRequestTest {
         for (TransactionWithId transactionWithId : transactionWithIds) {
             storage.save(transactionWithId.transaction, transactionWithId.transactionId);
         }
-        List<Long> expectedIds = new ArrayList<>(3); //todo maybe implement a better solution where hte order doesn't matter
+        List<Long> expectedIds = new ArrayList<>(3); //todo maybe implement a better solution where the order doesn't matter
         expectedIds.add(321644889L);
         expectedIds.add(6677L);
         expectedIds.add(4445L);
@@ -86,5 +86,12 @@ public class ServerGetRequestTest {
         HttpRequest httpRequest = makeGetRequestFromUrl("/transactionservice/types/" + TEST_TYPE);
         server.execute(httpRequest, requestExecutedCallback);
         verify(requestExecutedCallback).onRequestExecuted(eq(expectedResult));
+    }
+
+    @Test
+    public void transactionNotFound_returnErrorStatusWithReason() throws Exception {
+        HttpRequest httpRequest = makeGetRequestFromUrl("/transactionservice/transaction/" + 56414516L);
+        server.execute(httpRequest, requestExecutedCallback);
+        verify(requestExecutedCallback).onRequestExecuted(eq(json.makeStatusError("Transaction not found")));
     }
 }

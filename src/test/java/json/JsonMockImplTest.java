@@ -27,6 +27,13 @@ public class JsonMockImplTest {
     }
 
     @Test
+    public void makeStatusErrorFromMessage() throws Exception {
+        String message = "There was a problem!";
+        String result = json.makeStatusError(message);
+        assertEquals("{ \"status\": \"error\", \"reason\": \"There was a problem!\" }", result);
+    }
+
+    @Test
     public void testParseTransactionFromJsonString() throws Exception {
         String jsonTransaction = "{ \"amount\":250.5,\"type\":\"This is a test\",\"parent_id\":25043 }";
         Transaction transaction = json.parseJsonToTransaction(jsonTransaction);

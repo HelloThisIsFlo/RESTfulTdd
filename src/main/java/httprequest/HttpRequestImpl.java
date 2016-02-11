@@ -112,7 +112,7 @@ public class HttpRequestImpl implements HttpRequest {
 
     private boolean isParameterValid() {
         if (hasParameter()) {
-            if (isParameterExpectedToBeLong()) { //todo maybe remove. Not sure if HttpRequest's responsability
+            if (isParameterExpectedToBeLong()) { //todo maybe remove. Not sure if HttpRequest's responsibility
                 return isParameterLong();
             } else {
                 return !isParameterLong();
@@ -144,12 +144,8 @@ public class HttpRequestImpl implements HttpRequest {
     }
 
     private boolean isParameterExpectedToBeLong() {
-        if (hasMethod()) {
-            return method == Method.TRANSACTION
-                    || method == Method.SUM;
-        } else {
-            return false;
-        }
+        return hasMethod()
+                && (method == Method.TRANSACTION || method == Method.SUM);
     }
 
     private boolean isParameterLong() {

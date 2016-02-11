@@ -17,8 +17,8 @@ public class JsonMockImpl implements Json {
     }
 
     @Override
-    public String makeErrorStatus() {
-        return "{ \"status\": \"Error\"}";
+    public String makeStatusError(String message) {
+        return "{ \"status\": \"error\", \"reason\": \"" + message + "\" }";
     }
 
     @Override

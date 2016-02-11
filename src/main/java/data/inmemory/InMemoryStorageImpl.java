@@ -2,6 +2,7 @@ package data.inmemory;
 
 import data.Storage;
 import data.Transaction;
+import data.TransactionNotFoundException;
 import data.TransactionNotSavedException;
 
 import java.util.ArrayList;
@@ -30,8 +31,13 @@ public class InMemoryStorageImpl implements Storage {
     }
 
     @Override
-    public Transaction get(long transactionId) {
-        return transactions.get(transactionId);
+    public Transaction get(long transactionId) throws TransactionNotFoundException {
+        Transaction transaction = transactions.get(transactionId);
+        if (transaction != null) {
+            return transaction;
+        } else {
+            throw new TransactionNotFoundException();
+        }
     }
 
     @Override

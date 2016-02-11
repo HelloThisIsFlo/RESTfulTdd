@@ -9,7 +9,7 @@ public interface Json {
 
 
     String makeStatusOk();
-    String makeErrorStatus();
+    String makeStatusError(String message);
 
     Transaction parseJsonToTransaction(String jsonTransaction) throws JsonParseException;
     String serializeFromTransaction(Transaction transaction);

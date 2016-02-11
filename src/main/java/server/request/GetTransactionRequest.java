@@ -2,15 +2,18 @@ package server.request;
 
 import data.Storage;
 import data.Transaction;
+import data.TransactionNotFoundException;
 import json.Json;
 import server.RequestExecutedCallback;
-import server.Server;
 import server.ServerException;
 
 class GetTransactionRequest implements Request {
 
     private final Json json;
     private final long id;
+
+    private Storage storage;
+    private Transaction transaction;
 
     public GetTransactionRequest(Json json, long transactionId) {
         this.json = json;
@@ -19,13 +22,17 @@ class GetTransactionRequest implements Request {
 
     @Override
     public void execute(Storage storage, RequestExecutedCallback callback) throws ServerException {
-        Transaction transaction = storage.get(id);
-        String response;
-        if (transaction != null) { // todo improve error handling here
-            response = json.serializeFromTransaction(transaction);
-        } else {
-            response = json.makeErrorStatus();
-        }
+        this.storage = storage;
+        getTransaction();
+        String response = json.serializeFromTransaction(transaction);
         callback.onRequestExecuted(response);
+    }
+
+    private void getTransaction() throws ServerException {
+        try {
+            transaction = storage.get(id);
+        } catch (TransactionNotFoundException e) {
+            throw new ServerException("Transaction not found");
+        }
     }
 }

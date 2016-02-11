@@ -1,19 +1,20 @@
 package server;
 
 import data.Storage;
-import data.Transaction;
-import data.TransactionNotSavedException;
 import httprequest.HttpRequest;
+import json.Json;
 import server.request.InvalidHttpRequest;
 import server.request.Request;
 import server.request.RequestBuilder;
 
 public class Server {
 
+    private final Json json;
     private final Storage storage;
     private final RequestBuilder requestBuilder;
 
-    public Server(Storage storage, RequestBuilder requestBuilder) {
+    public Server(Json json, Storage storage, RequestBuilder requestBuilder) {
+        this.json = json;
         this.storage = storage;
         this.requestBuilder = requestBuilder;
     }
@@ -24,19 +25,8 @@ public class Server {
         try {
             request.execute(storage, callback);
         } catch (ServerException e) {
-            e.printStackTrace();
+            callback.onRequestExecuted(json.makeStatusError(e.getMessage()));
         }
     }
 
-    public void save(Transaction data, long transactionId) throws ServerException{
-        try {
-            storage.save(data, transactionId);
-        } catch (TransactionNotSavedException e) {
-            throw new ServerException("Transaction could not be saved", e);
-        }
-    }
-
-    public Transaction get(long transactionId) {
-        return storage.get(transactionId);
-    }
 }

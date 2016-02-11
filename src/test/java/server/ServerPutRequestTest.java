@@ -10,8 +10,6 @@ import json.Json;
 import json.mock.JsonMockImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import server.request.RequestBuilder;
@@ -49,7 +47,7 @@ public class ServerPutRequestTest {
         json = new JsonMockImpl();
         requestBuilder = new RequestBuilderImpl(json);
         storage = new InMemoryStorageImpl();
-        server = new Server(storage, requestBuilder);
+        server = new Server(json, storage, requestBuilder);
     }
 
     @Test
@@ -61,6 +59,13 @@ public class ServerPutRequestTest {
         assertEquals(TRANSACTION, storage.get(TRANSACTION_ID));
 
         verify(requestExecutedCallback).onRequestExecuted(eq(json.makeStatusOk()));
+    }
+
+    @Test
+    public void failedToSaveTransaction_returnErrorStatus() throws Exception {
+        HttpRequest httpRequest = makePutRequestFromUrl("/transactionservice/transaction/" + 0);
+        server.execute(httpRequest, requestExecutedCallback);
+        verify(requestExecutedCallback).onRequestExecuted(eq(json.makeStatusError("Transaction could not be saved")));
     }
 
 }

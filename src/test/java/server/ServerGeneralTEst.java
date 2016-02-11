@@ -50,7 +50,7 @@ public class ServerGeneralTest {
         MockitoAnnotations.initMocks(this);
         json = new JsonMockImpl();
         requestBuilder = new RequestBuilderImpl(json);
-        server = new Server(storage, requestBuilder);
+        server = new Server(json, storage, requestBuilder);
     }
 
 
@@ -68,10 +68,4 @@ public class ServerGeneralTest {
         verify(storage, never()).save(any(), any());
     }
 
-
-    @Test (expected = ServerException.class)
-    public void failToSaveTransaction_throwServerException() throws Exception {
-        doThrow(new TransactionNotSavedException()).when(storage).save(any(), anyLong());
-        server.save(TRANSACTION, TRANSACTION_ID);
-    }
 }
