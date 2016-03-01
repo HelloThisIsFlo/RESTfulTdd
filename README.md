@@ -10,7 +10,7 @@ The idea behind learning TDD is to have an automatic coverage and decoupled impl
 that would allow me to refactor at will.
 Ultimately allowing me to experient with the teachings of code crafting masters such as Uncle bob, Kent beck, Martin fowler.
 
-But we're looking at lots of years down the line, for now : lots of words for not much . . . . what we're looking at here the most basic server you could think of ^_^
+But we're looking at lots of years down the line, for now : lots of words for not much . . . . what we're looking at here is the most basic server you could think of ^_^
 
 ## Specs
 PUT /transactionservice/transaction/$transaction_id <br/>
